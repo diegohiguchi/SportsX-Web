@@ -1,0 +1,42 @@
+<div class="col-md-12">
+  <h2> Lista Clientes</h2>
+  <div>
+    <button type="button" class="btn btn-primary mb-2" (click)="adicionar()">Adicionar Cliente</button>
+  </div>
+  <div>
+    <input placeholder="Filtrar" name="filtro" class="form-control" id="filtro" [(ngModel)]="query">
+  </div>
+  <br>
+  <div class="table-responsive table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>CPF/CNPJ</th>
+          <th>Email</th>
+          <th>Cep</th>
+          <th>Classificação</th>
+          <th>Telefone</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientes | search:'nome,cpf,cnpj,email':query">
+          <td [hidden]="cliente.id">{{cliente.id}}</td>
+          <td>{{cliente.nome}}</td>
+          <td>{{cliente.cpf}} {{cliente.cnpj}}</td>
+          <td>{{cliente.email}}</td>
+          <td>{{cliente.cep}}</td>
+          <td>{{obterClassificacao(cliente.classificacao)}}</td>
+          <div *ngFor="let telefone of cliente.telefones">
+            <td>{{telefone.numero}}</td>
+          </div>
+          <td>
+            <button (click)="editar(cliente)" class="btn btn-info"> Editar</button>
+            <button (click)="excluir(cliente)" style="margin-left: 20px;" class="btn btn-danger"> Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

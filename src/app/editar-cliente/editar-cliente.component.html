@@ -1,0 +1,112 @@
+<div class="col-md-6">
+  <h2 class="text-center">Editar Cliente</h2>
+  <form [formGroup]="clienteForm" novalidate class="form">
+    <div class="form-group">
+      <label for="pessoa">Pessoa:</label>
+      <select formControlName="pessoa" name="pessoa" class="form-control" id="pessoa" disabled>
+        <option value=''>Selecione</option>
+        <option value='1'>Pessoa Física</option>
+        <option value='2'>Pessoa Jurídica</option>
+      </select>
+      <div class="alert  alert-danger"
+        *ngIf="clienteForm.get('pessoa').hasError('required') && clienteForm.get('pessoa').touched">
+        Pessoa é obrigatório
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="nome">Nome:</label>
+      <input formControlName="nome" placeholder="Nome" name="nome" class="form-control" id="nome" maxlength="100">
+      <div class="alert  alert-danger"
+        *ngIf="clienteForm.get('nome').hasError('required') && clienteForm.get('nome').touched">
+        Nome é obrigatório
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="clienteForm.get('pessoa').value == 1">
+      <label for="cpf">CPF:</label>
+      <input formControlName="cpf" placeholder="CPF" name="cpf" class="form-control" id="cpf" mask="099.099.099-99"
+        required>
+      <div class="alert  alert-danger"
+        *ngIf="clienteForm.get('cpf').hasError('required') && clienteForm.get('cpf').touched">
+        CPF é obrigatório
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="clienteForm.get('pessoa').value == 2">
+      <label for="cnpj">CNPJ:</label>
+      <input formControlName="cnpj" placeholder="CNPJ" name="cnpj" class="form-control" id="cpf"
+        mask="00.000.000/0000-00" required>
+      <div class="alert  alert-danger"
+        *ngIf="clienteForm.get('cnpj').hasError('required') && clienteForm.get('cnpj').touched">
+        CNPJ é obrigatório
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="clienteForm.get('pessoa').value == 2">
+      <label for="razaoSocial">Razão Social:</label>
+      <input formControlName="razaoSocial" placeholder="Razão Social" name="razaoSocial" class="form-control"
+        id="razaoSocial" required maxlength="100">
+      <div class="alert  alert-danger"
+        *ngIf="clienteForm.get('razaoSocial').hasError('required') && clienteForm.get('razaoSocial').touched">
+        Razão Social é obrigatório
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="cep">CEP:</label>
+      <input formControlName="cep" placeholder="CEP" name="cep" class="form-control" id="cep" mask="99999-999">
+      <div class="alert  alert-danger"
+        *ngIf="clienteForm.get('cep').hasError('required') && clienteForm.get('cep').touched">
+        CEP é obrigatório
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input formControlName="email" placeholder="Email" name="email" class="form-control" id="email">
+      <div class="alert  alert-danger"
+        *ngIf="clienteForm.get('email').hasError('required') && clienteForm.get('email').touched">
+        Email é obrigatório
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="classificacao">Classificação:</label>
+      <select formControlName="classificacao" name="classificacao" class="form-control" id="classificacao">
+        <option value=''>Selecione</option>
+        <option value='0'>Ativo</option>
+        <option value='1'>Inativo</option>
+        <option value='2'>Preferencial</option>
+      </select>
+      <div class="alert  alert-danger"
+        *ngIf="clienteForm.get('classificacao').hasError('required') && clienteForm.get('classificacao').touched">
+        Classificação é obrigatório
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="telefone">Telefone:</label>
+      <div formArrayName="telefones" *ngFor="let telefone of clienteForm.get('telefones').controls; let i = index;">
+        <div [formGroupName]="i">
+          <div class="form-group row" *ngIf="i > 0">
+            <div class="col-md-10">
+              <input formControlName="numero" placeholder="Telefone" name="numero" class="form-control" id="numero"
+                mask="(00)00000-0000">
+            </div>
+            <div class="col-md-2" *ngIf="i > 1">
+              <button type="button" class="btn btn-danger btn-sm" (click)="removerTelefone(i)">Remover</button>
+            </div>
+          </div>
+          <div class="alert  alert-danger"
+            *ngIf="clienteForm.get('telefones').hasError('required') && clienteForm.get('telefones').touched">
+            Telefone é obrigatório
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="button" (click)="adicionarTelefone()">Adicionar Telefone</button>
+    </div>
+
+    <button class="btn btn-success" [disabled]='clienteForm.invalid' (click)="onSubmit()">Salvar</button>
+  </form>
+</div>
